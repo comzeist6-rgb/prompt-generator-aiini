@@ -1,94 +1,105 @@
 import streamlit as st
 
-st.set_page_config(page_title="AIini Engine Pro", layout="wide")
+st.set_page_config(page_title="AIini Influencer Hub", layout="wide")
 
-# CSS Custom untuk UI dan Konsistensi
+# CSS untuk UI Profesional & Tombol Salin
 st.markdown("""
     <style>
     .main { background-color: #0e1117; color: white; }
-    .stButton>button { width: 100%; border-radius: 12px; background: linear-gradient(90deg, #00C9FF, #92FE9D); color: black; border: none; font-weight: bold; height: 3rem; }
+    .stButton>button { width: 100%; border-radius: 12px; background: linear-gradient(90deg, #00C9FF, #92FE9D); color: black; border: none; font-weight: bold; height: 3.5rem; }
     .stTextArea textarea { background-color: #161b22; color: white; border: 1px solid #30363d; border-radius: 12px; }
-    .copy-box { background-color: #1c2128; padding: 15px; border-radius: 10px; border-left: 5px solid #00C9FF; margin-bottom: 15px; }
+    .copy-container { background-color: #1c2128; padding: 15px; border-radius: 10px; border: 1px solid #30363d; position: relative; }
+    .stSelectbox [data-baseweb="select"] { background-color: #161b22; border-radius: 12px; }
     </style>
     """, unsafe_allow_html=True)
 
-st.title("👗 AIini Chelsea: Influencer Engine")
-st.caption("Mode Konsistensi Tinggi & Kontrol Durasi")
+st.title("🎥 AIini Chelsea: Professional Influencer Engine")
+st.caption("Fokus: Konsistensi Karakter, Detail Outfit & Full Body")
 
-# --- SECTION 1: REFERENSI BERDAMPINGAN ---
+# --- 1. REFERENSI VISUAL (BERDAMPINGAN) ---
 st.write("### 🖼️ REFERENSI VISUAL")
-col_char, col_cloth = st.columns(2)
+col_char, col_outfit = st.columns(2)
 with col_char:
-    st.info("👤 **Karakter Utama**")
-    up_char = st.file_uploader("Upload Wajah", label_visibility="collapsed", key="char")
-with col_cloth:
-    st.info("👗 **Outfit & Shoes**")
-    up_cloth = st.file_uploader("Upload Pakaian", label_visibility="collapsed", key="cloth")
+    st.info("👤 **Karakter**")
+    up_char = st.file_uploader("Upload Wajah Utama", label_visibility="collapsed", key="char")
+with col_outfit:
+    st.info("👗 **Outfit**")
+    up_outfit = st.file_uploader("Upload Pakaian & Sepatu", label_visibility="collapsed", key="outfit")
 
-# --- SECTION 2: CHARACTER SHEET (UNTUK KONSISTENSI) ---
+# --- 2. KOTAK KARAKTER UTAMA (DENGAN ANALISIS) ---
 st.write("---")
 st.write("### 👤 KOTAK KARAKTER UTAMA")
-# Deskripsi dikunci untuk menjaga konsistensi wajah tirus/slender Chelsea
-base_desc = "Aiini Chelsea, 20yo Indonesian girl, ultra-consistent face, slender face, thin jawline, long wavy black hair, neutral expression."
-technical_fix = "High-fidelity skin, 8k, photorealistic, masterwork, maintain same facial features across all shots."
 
-sheet_val = f"[CONSISTENCY SHEET]\nSubject: {base_desc}\nVisual: {technical_fix}\nView: Full Body Shot, showing footwear/sandals."
-char_sheet = st.text_area("Character Consistency Master:", value=sheet_val, height=120)
+# State untuk menyimpan hasil analisis
+if 'analysis_result' not in st.session_state:
+    st.session_state.analysis_result = ""
 
-# --- SECTION 3: LOKASI, ADEGAN, DURASI (BERDAMPINGAN) ---
+if st.button("🪄 KLIK UNTUK ANALISIS CHARACTER SHEET"):
+    # Logika simulasi analisis karakter dan outfit
+    st.session_state.analysis_result = (
+        "[PRIMARY CHARACTER SHEET]\n"
+        "Identity: Aiini Chelsea, 20yo Indonesian girl.\n"
+        "Face: Slender face, thin jawline, long wavy black hair, high cheekbones.\n"
+        "Outfit Context: Integrating style from uploaded outfit reference.\n"
+        "Visual Rule: Full body shot mandatory, emphasize footwear/sandals details, hyper-realistic texture."
+    )
+
+char_sheet = st.text_area(
+    "Hasil Analisis (Pedoman Konsistensi):", 
+    value=st.session_state.analysis_result, 
+    height=150,
+    placeholder="Klik tombol di atas untuk menganalisis gambar..."
+)
+
+# --- 3. SCENE, LOKASI, DURASI (TIGA KOLOM SEJAJAR) ---
 st.write("---")
-col_loc, col_act, col_dur = st.columns([1, 1, 1])
+col_scene, col_loc, col_dur = st.columns(3)
+
+with col_scene:
+    st.write("🎬 **Scene**")
+    scene_options = [f"Scene {i}: " + desc for i, desc in enumerate([
+        "Full body pose standing", "Quick outfit swap transition", "360-degree rotation", 
+        "Walking to camera", "Sitting on bed edge", "Close up on sandals/shoes", 
+        "Influencer mirror selfie", "Casual to formal transition", "Slow motion aesthetic walk", 
+        "Looking back and smiling"
+    ], 1)]
+    pilih_scene = st.selectbox("Pilih Adegan:", scene_options)
 
 with col_loc:
     st.write("📍 **Lokasi**")
-    lokasi = st.selectbox("Pilih Tempat:", [
-        "Kamar Apartemen Mewah", 
-        "Kamar Minimalis Aesthetic", 
-        "Ruangan Polos (Studio)", 
-        "Kafe Estetik", 
-        "Jalanan Urban"
+    pilih_lokasi = st.selectbox("Pilih Tempat:", [
+        "Kamar Apartemen Mewah", "Kamar Minimalis Aesthetic", 
+        "Ruangan Polos", "Kafe Estetik", "Jalanan Urban"
     ])
-
-with col_act:
-    st.write("🎬 **Adegan**")
-    adegan_list = [
-        "1. Berdiri Tenang (Full Body)",
-        "2. Transisi Ganti Baju Cepat",
-        "3. Berputar 360 Derajat",
-        "4. Jalan ke Kamera (Catwalk)",
-        "5. Duduk di Tepi Kasur",
-        "6. Zoom ke Sepatu/Sandal",
-        "7. Pose Influencer (Mirror)",
-        "8. Transisi Kasual ke Formal",
-        "9. Gerakan Lambat (Slowmo)",
-        "10. Menoleh & Senyum"
-    ]
-    pilih_adegan = st.selectbox("Pilih Gerakan:", adegan_list)
 
 with col_dur:
     st.write("⏱️ **Durasi**")
-    durasi = st.select_slider("Durasi Video (Detik):", options=["5s", "10s", "15s", "30s", "60s"])
+    pilih_durasi = st.selectbox("Total Durasi Video:", ["5 Detik", "10 Detik", "15 Detik", "30 Detik"])
 
-# --- SECTION 4: GENERATE OUTPUT ---
+# --- 4. OUTPUT PROMPT (TERPISAH DENGAN ICON SALIN) ---
 st.write("---")
-if st.button("🚀 HASILKAN PROMPT KONSISTEN"):
-    st.balloons()
-    
-    # Prompt Foto (Fokus pada Detail & Konsistensi)
-    prompt_foto = f"RAW photo of {base_desc}, wearing outfit from reference, {lokasi}, {pilih_adegan}, full body, looking at camera, visible sandals/footwear, extreme detail, 8k, dslr, 85mm lens, --seed 1000"
-    
-    # Prompt Video (Fokus pada Gerakan & Durasi)
-    prompt_video = f"Cinematic AI video, {durasi} duration, {base_desc}, {pilih_adegan}, in {lokasi}, consistent face identity, smooth motion, high-quality fabric physics, visible shoes, 4k, 60fps."
-
-    out_foto, out_video = st.columns(2)
-    with out_foto:
-        st.subheader("📸 Prompt Gambar")
-        st.code(prompt_foto, language="text")
-        st.caption("Gunakan untuk generate base image (Midjourney/Leonardo)")
+if st.button("🚀 HASILKAN PROMPT"):
+    if not st.session_state.analysis_result:
+        st.warning("Mohon lakukan 'Analisis Character Sheet' terlebih dahulu agar prompt konsisten!")
+    else:
+        st.balloons()
         
-    with out_video:
-        st.subheader("🎥 Prompt Video")
-        st.code(prompt_video, language="text")
-        st.caption(f"Gunakan untuk video {durasi} (Kling/Luma/Runway)")
+        # Logika Prompt
+        desc_base = "Aiini Chelsea, slender face, thin jawline, long wavy black hair"
+        p_foto = f"Photorealistic image of {desc_base}, wearing outfit from reference, {pilih_lokasi}, {pilih_scene}, full body shot, visible sandals/footwear, 8k, highly detailed skin."
+        p_video = f"Cinematic AI video, {pilih_durasi} duration, {desc_base}, {pilih_scene} at {pilih_lokasi}, seamless motion, consistent identity, focus on shoes detail, 4k, 60fps."
 
-    st.info("💡 **Tips Konsistensi:** Gunakan gambar hasil 'Prompt Gambar' sebagai *Image Reference* saat membuat video agar wajah tetap 100% sama.")
+        out_f, out_v = st.columns(2)
+        
+        with out_f:
+            st.subheader("📸 Prompt Gambar")
+            st.code(p_foto, language="text")
+            st.caption("📋 Klik icon di pojok kanan atas kotak untuk menyalin")
+            
+        with out_v:
+            st.subheader("🎥 Prompt Video")
+            st.code(p_video, language="text")
+            st.caption("📋 Klik icon di pojok kanan atas kotak untuk menyalin")
+
+st.info("💡 **Tips:** Pastikan 'Character Sheet' sudah terisi agar AI mengenali identitas Chelsea secara konsisten di setiap scene.")
+        
