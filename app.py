@@ -1,5 +1,6 @@
 import streamlit as st
 
+# Konfigurasi halaman agar lebar
 st.set_page_config(page_title="AIini Influencer Hub", layout="wide")
 
 # CSS Sakti untuk memaksa kolom tetap berdampingan di HP
@@ -7,14 +8,14 @@ st.markdown("""
     <style>
     .main { background-color: #0e1117; color: white; }
     
-    /* Memaksa kolom upload dan menu tetap berdampingan di HP */
+    /* Memaksa kolom Referensi Visual tetap berdampingan 2 kolom di HP */
     [data-testid="column"] {
         width: 48% !important;
         flex: 1 1 48% !important;
         min-width: 48% !important;
     }
     
-    /* Khusus untuk baris Lokasi & Durasi agar jadi 3 kolom kecil */
+    /* Memaksa baris Scene, Lokasi, Durasi tetap berdampingan 3 kolom di HP */
     .three-col [data-testid="column"] {
         width: 30% !important;
         flex: 1 1 30% !important;
@@ -25,15 +26,15 @@ st.markdown("""
     .stTextArea textarea { background-color: #161b22; color: white; border: 1px solid #30363d; border-radius: 12px; }
     .scene-box { background-color: #1c2128; padding: 15px; border-radius: 10px; border: 1px solid #00C9FF; margin-bottom: 20px; }
     
-    /* Mengecilkan teks label agar muat berdampingan */
-    label { font-size: 0.8rem !important; }
+    /* Mengecilkan sedikit teks agar muat di layar sempit */
+    label { font-size: 0.75rem !important; }
     </style>
     """, unsafe_allow_html=True)
 
 st.title("🎥 AIini Chelsea Engine")
-st.caption("Edisi Force Side-by-Side (Tampilan Berdampingan)")
+st.caption("Mode: Tampilan Berdampingan (Mobile Optimized)")
 
-# --- 1. REFERENSI VISUAL (DIPAKSA BERDAMPINGAN) ---
+# --- 1. REFERENSI VISUAL (2 KOLOM BERDAMPINGAN) ---
 st.write("### 🖼️ REFERENSI VISUAL")
 col_char, col_outfit = st.columns(2)
 with col_char:
@@ -41,7 +42,7 @@ with col_char:
     st.file_uploader("Wajah", label_visibility="collapsed", key="char")
 with col_outfit:
     st.info("👗 **Outfit**")
-    st.file_uploader("Baju/Sepatu", label_visibility="collapsed", key="outfit")
+    st.file_uploader("Baju", label_visibility="collapsed", key="outfit")
 
 # --- 2. KOTAK KARAKTER UTAMA ---
 st.write("---")
@@ -54,12 +55,12 @@ if st.button("🪄 KLIK UNTUK ANALISIS CHARACTER SHEET"):
         "[PRIMARY SHEET]\n"
         "Name: Aiini Chelsea. \n"
         "Features: Slender face, thin jawline, wavy black hair.\n"
-        "Mandate: Full body, focus on footwear/sandals."
+        "Mandate: Full body shot, focus on footwear/sandals details."
     )
 
-st.text_area("Pedoman Konsistensi:", value=st.session_state.sheet_data, height=130, placeholder="Klik tombol di atas...")
+st.text_area("Pedoman Konsistensi:", value=st.session_state.sheet_data, height=130, placeholder="Kotak kosong. Klik tombol 'Analisis' di atas...")
 
-# --- 3. JUMLAH SCENE, LOKASI, DURASI (TIGA KOLOM SEJAJAR) ---
+# --- 3. JUMLAH SCENE, LOKASI, DURASI (3 KOLOM BERDAMPINGAN) ---
 st.write("---")
 st.markdown('<div class="three-col">', unsafe_allow_html=True)
 c1, c2, c3 = st.columns(3)
@@ -87,7 +88,7 @@ if st.button("🚀 HASILKAN PROMPT"):
             st.markdown(f"#### 🎬 SCENE {i}")
             out_f, out_v = st.columns(2)
             with out_f:
-                st.code(f"Full body shot, {base}, outfit from ref, {pilih_lokasi}, scene {i}, sandals detail, 8k.", language="text")
+                st.code(f"Full body photo, {base}, outfit from reference, {pilih_lokasi}, scene {i}, sandals detail, 8k.", language="text")
             with out_v:
                 st.code(f"AI Video, {pilih_durasi}, {base}, action {i}, at {pilih_lokasi}, consistent face, 4k.", language="text")
             st.markdown('</div>', unsafe_allow_html=True)
